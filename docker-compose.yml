@@ -23,5 +23,3 @@ services:
         - ${OVOS_CONFIG_FOLDER}:/home/${OVOS_USER}/.config/mycroft
         - ${TMP_FOLDER}:/tmp/mycroft
         - ${XDG_RUNTIME_DIR}/pulse:${XDG_RUNTIME_DIR}/pulse:ro
-      depends_on:
-        - ovos_messagebus
