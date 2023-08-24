@@ -1,9 +1,24 @@
 from ovos_plugin_manager.phal import find_phal_plugins
 from ovos_config import Configuration
 from ovos_utils.log import LOG
-from ovos_bus_client.client import MessageBusClient
+from ovos_bus_client.client import MessageBusClient, Message
 from ovos_utils.process_utils import ProcessStatus, StatusCallbackMap
 from ovos_workshop import OVOSAbstractApplication
+
+
+import subprocess
+import time
+import sys
+from alsaaudio import Mixer
+from threading import Thread, Timer
+
+import serial
+import colorsys
+from ovos_PHAL_tama.arduino import EnclosureReader, EnclosureWriter
+from ovos_PHAL_tama.arduino import EnclosureArduino
+from ovos_PHAL_tama.eyes import EnclosureEyes
+from ovos_PHAL_tama.gaze import EnclosureGaze
+
 
 
 def on_ready():
@@ -38,7 +53,7 @@ class PHAL(OVOSAbstractApplication):
     def __init__(self, config=None, bus=None,
                  on_ready=on_ready, on_error=on_error,
                  on_stopping=on_stopping, on_started=on_started, on_alive=on_alive,
-                 watchdog=lambda: None, skill_id="ovos.PHAL", **kwargs):
+                 watchdog=lambda: None, skill_id="ovos.PHAL.tama", **kwargs):
         if not bus:
             bus = MessageBusClient()
             bus.run_in_thread()
@@ -55,9 +70,73 @@ class PHAL(OVOSAbstractApplication):
                                       on_started=started_hook)
         self.status = ProcessStatus("PHAL", callback_map=callbacks)
         self._watchdog = watchdog  # TODO implement
-        self.config = config or Configuration().get("PHAL") or {}
+        self.config = config or Configuration().get("TAMA") or {
+            "port": "/dev/ttyS0",
+            "rate": "9600",
+            "timeout": 5
+        }  # TODO
         self.drivers = {}
+        self.__init_serial()
+        self.reader = EnclosureReader(self.serial, self.bus)
+        self.writer = EnclosureWriter(self.serial, self.bus)
         self.status.bind(self.bus)
+
+        self.bus.on("enclosure.started", self.on_arduino_responded)
+        self.eyes = EnclosureEyes(self.bus, self.writer)
+        self.system = EnclosureArduino(self.bus, self.writer)
+        self.gaze = EnclosureGaze(self.bus, self.writer)
+        self.arduino_responded = True
+        
+
+    def on_arduino_responded(self, event=None):
+        self.eyes = EnclosureEyes(self.bus, self.writer)
+        self.system = EnclosureArduino(self.bus, self.writer)
+        self.__register_events()
+        self.__reset()
+        self.arduino_responded = True
+
+
+    def __init_serial(self):
+        try:
+            #For TAMA these should be '/dev/ttyS0',9600)#IK0312
+            #added to the default config
+            self.port = self.config.get("port")
+            #self.port = '/dev/ttyS0'
+            self.rate = self.config.get("rate")
+            #self.rate = 9600
+            self.timeout = self.config.get("timeout")
+            self.serial = serial.serial_for_url(
+                url=self.port, baudrate=self.rate, timeout=self.timeout)
+            LOG.info("Connected to: %s rate: %s timeout: %s" %
+                     (self.port, self.rate, self.timeout))
+        except Exception:
+            LOG.error("Impossible to connect to serial port: " +
+                      str(self.port))
+            raise
+
+    def __register_events(self):
+        self.bus.on('enclosure.reset', self.__reset)
+
+    def __reset(self, event=None):
+        # Reset both the position and the eye colour to indicate the unit is
+        # ready for input.
+        self.eyes.reset()
+
+    def speak(self, text):
+        self.bus.emit(Message("speak", {'utterance': text}))
+
+    def check_for_response(self):
+        if not self.arduino_responded:
+            # There is nothing on the other end of the serial port
+            # close these serial-port readers and this process
+            self.writer.stop()
+            self.serial.close()
+            self.bus.close()
+
+    def stop(self):
+        self.eyes.close()
+        self.gaze.shutdown()
+
 
     def load_plugins(self):
         for name, plug in find_phal_plugins().items():

@@ -1,5 +1,6 @@
 import subprocess
 
+#Would be nice to add one to detect the head controller and one for the omrons, but not needed now.
 
 def is_mycroft_sj201():
     cmd = 'i2cdetect -y -a 1 0x04 0x04 | egrep "(04|UU)" | awk \'{print $2}\''

@@ -7,7 +7,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 def get_version():
     """ Find the version of the package"""
     version = None
-    version_file = os.path.join(BASEDIR, 'ovos_PHAL', 'version.py')
+    version_file = os.path.join(BASEDIR, 'ovos_PHAL_tama', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
         for line in f:
@@ -55,11 +55,11 @@ if os.path.isfile(os.path.join(BASEDIR, "README.md")):
 
 
 setup(
-    name='ovos_PHAL',
+    name='ovos_PHAL_tama',
     version=get_version(),
-    packages=['ovos_PHAL'],
+    packages=['ovos_PHAL_tama'],
     install_requires=required("requirements/requirements.txt"),
-    package_data={'': package_files('ovos_PHAL')},
+    package_data={'': package_files('ovos_PHAL_tama')},
     url='https://github.com/OpenVoiceOS/ovos-PHAL',
     description="Plugin based Hardware Abstraction Layer for OVOS",
     long_description=long_description,
@@ -70,8 +70,8 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'ovos_PHAL=ovos_PHAL.__main__:main',
-            'ovos_PHAL_admin=ovos_PHAL.admin:main'
+            'ovos_PHAL_tama=ovos_PHAL_tama.__main__:main',
+            'ovos_PHAL_tama_admin=ovos_PHAL_tama.admin:main'
         ]
     }
 )
