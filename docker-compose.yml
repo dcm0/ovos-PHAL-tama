@@ -1,5 +1,6 @@
 ---
 version: "3.9"
+services:
  ovos_phal_tama:
     <<: *podman
     container_name: ovos_phal_tama
