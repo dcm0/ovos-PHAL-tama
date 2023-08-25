@@ -27,9 +27,9 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update \
     && apt-get install -y libasound2-dev procps ddcutil build-essential python3-dev \
     && if [ "${ALPHA}" == "true" ]; then \
-    pip3 install -r /tmp/ovos_PHAL_tama/requirements.txt --pre; \
+    pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt --pre; \
     else \
-    pip3 install -r /tmp/ovos_PHAL_tama/requirements.txt; \
+    pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt; \
     fi \
 	&& pip3 install /tmp/ovos_PHAL_tama \
     && chown ${USER}:${USER} -R /home/${USER} \
