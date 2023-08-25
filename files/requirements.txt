@@ -1,0 +1,4 @@
+ovos-PHAL
+ovos-PHAL-plugin-alsa
+ovos-PHAL-plugin-system
+ovos-plugin-manager
