@@ -158,6 +158,7 @@ class PHAL(OVOSAbstractApplication):
         try:
             self.load_plugins()
             self.status.set_ready()
+            self.eyes.reset()
         except Exception as e:
             LOG.exception(e)
             self.status.set_error(e)
