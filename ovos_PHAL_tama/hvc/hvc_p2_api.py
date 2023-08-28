@@ -68,9 +68,7 @@ class HVCP2Api(object):
 
         self._exec_func = exec_func
 
-        #os = sys.platform
-        #hardcoding this to see if it is a rpi64 error
-        os = 'linux'
+        os = sys.platform
         if os == 'win32':
             stb_lib_name = WINDOWS_STB_LIB_NAME
         elif 'linux':

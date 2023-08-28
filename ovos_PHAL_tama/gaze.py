@@ -71,6 +71,7 @@ class CameraManager(Thread):
                     __file__,                  # /tmp/example.py
                     e.__traceback__.tb_lineno  # 2
                 )
+            print(e)
 
         self.hvc_p2_api.set_uart_baudrate(self.baudrate) # Changing to the specified baudrate
         self.hvc_p2_api.disconnect()
@@ -88,6 +89,7 @@ class CameraManager(Thread):
                     __file__,                  # /tmp/example.py
                     e.__traceback__.tb_lineno  # 2
                 )
+            print(e)
 
 
         try:
@@ -105,6 +107,7 @@ class CameraManager(Thread):
                     __file__,                  # /tmp/example.py
                     e.__traceback__.tb_lineno  # 2
                 )
+            print(e)
 
 
     def run(self):
