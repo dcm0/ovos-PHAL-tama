@@ -16,12 +16,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from p2def import *
+from ovos_PHAL_tama.hvc.p2def import *
 from struct import *
-from hvc_result import HVCResult
-from serial_connector import SerialConnector
-from hvc_result import HVCResult
-from grayscale_image import GrayscaleImage
+from ovos_PHAL_tama.hvc.hvc_result import HVCResult
+from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
+from ovos_PHAL_tama.hvc.hvc_result import HVCResult
+from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
 
 RESPONSE_HEADER_SIZE = 6
 SYNC_CODE = 0xFE

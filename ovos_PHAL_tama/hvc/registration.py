@@ -20,11 +20,11 @@
 import os.path
 import sys
 import time
-import p2def
-from serial_connector import SerialConnector
-from hvc_p2_api import HVCP2Api
-from hvc_tracking_result import HVCTrackingResult
-from grayscale_image import GrayscaleImage
+import ovos_PHAL_tama.hvc.p2def as p2def
+from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
+from ovos_PHAL_tama.hvc.hvc_p2_api import HVCP2Api
+from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult
+from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
 
 ###############################################################################
 #  User Config. Please edit here if you need.
