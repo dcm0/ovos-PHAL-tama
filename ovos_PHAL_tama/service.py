@@ -1,7 +1,8 @@
 from ovos_plugin_manager.phal import find_phal_plugins
 from ovos_config import Configuration
 from ovos_utils.log import LOG
-from ovos_bus_client.client import MessageBusClient, Message
+from ovos_bus_client.client import MessageBusClient
+from ovos_bus_client import Message
 from ovos_utils.process_utils import ProcessStatus, StatusCallbackMap
 from ovos_workshop import OVOSAbstractApplication
 
