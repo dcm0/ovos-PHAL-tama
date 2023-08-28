@@ -18,7 +18,7 @@
 
 
 import serial
-from connector import Connector
+from ovos_PHAL_tama.hvc.connector import Connector
 
 DEFALUT_TIMEOUT = 3
 
