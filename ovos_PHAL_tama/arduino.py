@@ -20,7 +20,7 @@ from threading import Thread
 from ovos_bus_client.client import MessageBusClient
 from ovos_bus_client import Message
 from ovos_utils.log import LOG
-from ovos_utils.signal import check_for_signal
+#from ovos_utils.signal import check_for_signal
 
 
 class EnclosureWriter(Thread):
@@ -660,7 +660,8 @@ class EnclosureReader(Thread):
 
     def on_stop_handled(self, event):
         # A skill performed a stop
-        check_for_signal('buttonPress')
+        #check_for_signal('buttonPress')
+        LOG.error("Unhandled STOP")
 
     def process(self, data):
         # TODO: Look into removing this emit altogether.
