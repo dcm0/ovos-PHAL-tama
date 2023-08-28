@@ -6,3 +6,5 @@ ovos-utils
 ovos_bus_client
 ovos_workshop
 ovos-config
+pyserial
+Pillow
