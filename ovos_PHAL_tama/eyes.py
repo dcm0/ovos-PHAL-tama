@@ -14,7 +14,8 @@
 
 
 from ovos_utils import play_audio_file
-from ovos_bus_client.client import MessageBusClient, Message
+from ovos_bus_client.client import MessageBusClient
+from ovos_bus_client import Message
 from ovos_utils.log import LOG
 
 from pathlib import Path

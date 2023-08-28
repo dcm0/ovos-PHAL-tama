@@ -2,3 +2,7 @@ ovos-PHAL
 ovos-PHAL-plugin-alsa
 ovos-PHAL-plugin-system
 ovos-plugin-manager
+ovos-utils
+ovos_bus_client
+ovos_workshop
+ovos-config

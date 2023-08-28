@@ -1,5 +1,5 @@
 ARG TAG=alpha
-FROM smartgic/ovos-sound-base:${TAG}
+FROM dcm0/tama:tama_PHAL_base
 
 ARG BUILD_DATE=unknown
 ARG VERSION=unknown
@@ -24,19 +24,10 @@ RUN pip3 install /tmp/ovos_PHAL_tama
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update \
-    && apt-get install -y libasound2-dev procps ddcutil build-essential python3-dev \
-    && if [ "${ALPHA}" == "true" ]; then \
-    pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt --pre; \
-    else \
-    pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt; \
-    fi \
-	&& pip3 install /tmp/ovos_PHAL_tama \
-    && chown ${USER}:${USER} -R /home/${USER} \
-    && apt-get --purge remove --purge -y libasound2-dev build-essential python3-dev \
-    && apt-get --purge autoremove -y \
-    && apt-get clean \
-    && rm -rf ${HOME}/.cache /var/lib/apt /var/log/{apt,dpkg.log} /tmp/ovos_PHAL_tama
+RUN pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt; \
+    pip3 install /tmp/ovos_PHAL_tama \
+    chown ${USER}:${USER} -R /home/${USER} \
+    rm -rf ${HOME}/.cache /var/lib/apt /var/log/{apt,dpkg.log} /tmp/ovos_PHAL_tama
 
 USER $USER
 

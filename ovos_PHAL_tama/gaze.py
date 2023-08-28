@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ovos_bus_client.client import Message
+from ovos_bus_client import Message
 from threading import Thread
 import time
 import subprocess
