@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-from ovos_utils import play_audio
+from ovos_utils.sound import play_audio
 from ovos_bus_client.client import MessageBusClient
 from ovos_bus_client import Message
 from ovos_utils.log import LOG
