@@ -54,7 +54,7 @@ class HVCP2Api(object):
             _use_stb = p2def.USE_STB_OFF
         else:
             _use_stb = use_stabilizer
-        self.use_stb = _use_stb
+        self.use_stb = p2def.USE_STB_OFF
 
         # Adds face flag if using facial estimation function
         if exec_func & (p2def.EX_DIRECTION\
