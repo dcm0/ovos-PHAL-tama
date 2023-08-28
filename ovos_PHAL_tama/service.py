@@ -16,7 +16,7 @@ from threading import Thread, Timer
 import serial
 import colorsys
 from ovos_PHAL_tama.arduino import EnclosureReader, EnclosureWriter
-from ovos_PHAL_tama.arduino import EnclosureArduino
+#from ovos_PHAL_tama.arduino import EnclosureArduino
 from ovos_PHAL_tama.eyes import EnclosureEyes
 from ovos_PHAL_tama.gaze import EnclosureGaze
 
@@ -84,14 +84,14 @@ class PHAL(OVOSAbstractApplication):
 
         self.bus.on("enclosure.started", self.on_arduino_responded)
         self.eyes = EnclosureEyes(self.bus, self.writer)
-        self.system = EnclosureArduino(self.bus, self.writer)
+        #self.system = EnclosureArduino(self.bus, self.writer)
         self.gaze = EnclosureGaze(self.bus, self.writer)
         self.arduino_responded = True
         
 
     def on_arduino_responded(self, event=None):
         self.eyes = EnclosureEyes(self.bus, self.writer)
-        self.system = EnclosureArduino(self.bus, self.writer)
+        #self.system = EnclosureArduino(self.bus, self.writer)
         self.__register_events()
         self.__reset()
         self.arduino_responded = True
