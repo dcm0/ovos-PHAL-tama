@@ -9,4 +9,4 @@ ovos-config
 pyserial
 Pillow  
 numpy
-cv2
+opencv-python
