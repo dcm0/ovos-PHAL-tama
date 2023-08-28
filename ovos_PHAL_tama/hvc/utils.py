@@ -25,7 +25,7 @@ from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
 from ovos_PHAL_tama.hvc.hvc_p2_api import HVCP2Api
 from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult
 from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
-from ovos.util.log import LOG
+from ovos_utils.log import LOG
 
 
 ###############################################################################
