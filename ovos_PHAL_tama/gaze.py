@@ -23,7 +23,8 @@ from ovos_PHAL_tama.hvc.hvc_p2_api import HVCP2Api
 from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult
 from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
 from ovos_utils.log import LOG
-from ovos_utils import play_wav, create_signal, connected, check_for_signal
+from ovos_utils import create_signal, connected, check_for_signal
+from ovos_utils.sound import play_wav
 
 class CameraManager(Thread):
 
