@@ -17,7 +17,7 @@ from threading import Thread
 import time
 import subprocess
 import ovos_PHAL_tama.hvc.p2def as p2def
-from ovos_PHAL_tama.hvc.utils import *
+from ovos_PHAL_tama.hvc.execution import *
 from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
 from ovos_PHAL_tama.hvc.hvc_p2_api import HVCP2Api
 from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult

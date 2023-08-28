@@ -20,10 +20,16 @@
 import sys
 import time
 import p2def
+
+import numpy as np
+import cv2
+
 from serial_connector import SerialConnector
 from hvc_p2_api import HVCP2Api
 from hvc_tracking_result import HVCTrackingResult
 from grayscale_image import GrayscaleImage
+
+import base64
 
 ###############################################################################
 #  User Config. Please edit here if you need.                                 #
@@ -45,15 +51,15 @@ exec_func = p2def.EX_FACE\
           | p2def.EX_GENDER\
           | p2def.EX_EXPRESSION\
           | p2def.EX_RECOGNITION\
+#          | p2def.EX_BODY\
+#          | p2def.EX_HAND\
 #          | p2def.EX_BLINK\
 #          | p2def.EX_GAZE\
-#          | p2def.EX_BODY\
-#          | p2def.EX_HAND
 
 #exec_func = p2def.EX_NONE  # Please use this to get just the image.
 
 # Output image type
-output_img_type = p2def.OUT_IMG_TYPE_NONE
+output_img_type = p2def.OUT_IMG_TYPE_QVGA #OUT_IMG_TYPE_NONE
                       # OUT_IMG_TYPE_QQVGA
                       # OUT_IMG_TYPE_QVGA
 
@@ -140,7 +146,7 @@ def _parse_arg(argv):
 
 def _check_connection(hvc_p2_api):
     (res_code, hvc_type, major, minor, release, rev) = hvc_p2_api.get_version()
-    if res_code == 0 and hvc_type.startswith(b'B5T-007001'):
+    if res_code == 0 and hvc_type.decode('utf-8').startswith('B5T-007001'):
         pass
     else:
         raise IOError("Error: connection failure.")
@@ -258,9 +264,52 @@ def main():
             elapsed_time = str(float(time.time() - start) * 1000)[0:6]
 
             if output_img_type != p2def.OUT_IMG_TYPE_NONE:
-                img.save(img_fname)
+                #img.save(img_fname)
+                img_out = img.get_image()
+                if img_out is not False:
+                    mat = np.array(img_out)
+                    mat = cv2.cvtColor(mat, cv2.COLOR_GRAY2BGR)
+                    
+                    for face in hvc_tracking_result.faces:
+                        scale_div = 1
+                        if output_img_type == p2def.OUT_IMG_TYPE_QVGA:
+                            scale_div = 5
+                        elif output_img_type == p2def.OUT_IMG_TYPE_QQVGA:
+                            scale_div = 10
+                        
+                        x1 = int((face.pos_x - face.size / 2) / scale_div)
+                        y1 = int((face.pos_y - face.size / 2) / scale_div)
+                        x2 = int((face.pos_x + face.size / 2) / scale_div)
+                        y2 = int((face.pos_y + face.size / 2) / scale_div)
+                        
+                        cv2.rectangle(mat, (x1, y1), (x2, y2), (0,255,0), 2)
+                        
+                    for body in hvc_tracking_result.bodies:
+                        scale_div = 1
+                        if output_img_type == p2def.OUT_IMG_TYPE_QVGA:
+                            scale_div = 5
+                        elif output_img_type == p2def.OUT_IMG_TYPE_QQVGA:
+                            scale_div = 10
+                        
+                        x1 = (body.pos_x - body.size / 2) / scale_div
+                        y1 = (body.pos_y - body.size / 2) / scale_div
+                        x2 = (body.pos_x + body.size / 2) / scale_div
+                        y2 = (body.pos_y + body.size / 2) / scale_div
+                        
+                        cv2.rectangle(mat, (x1, y1), (x2, y2), (0,0,255), 2)
+                        
+                        
+                    
+                    #image = base64.b64encode(cv2.imencode('.jpg', mat)[1])
+                    
+        
+                    #mat = cv2.flip(mat, 1)
+                    cv2.imshow('image', mat)
+                    
+                    
+                    cv2.waitKey(1);
 
-            print((("==== Elapsed time:{0}".format(elapsed_time)) + "[msec] ===="))
+            print(("==== Elapsed time:{0}".format(elapsed_time)) + "[msec] ====")
             print(hvc_tracking_result)
             print("Press Ctrl+C Key to end:\n")
 

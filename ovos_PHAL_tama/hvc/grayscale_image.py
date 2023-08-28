@@ -40,6 +40,22 @@ class GrayscaleImage(object):
         y = 0
         for y in range(h):
             for x in range(w):
-                img.putpixel((x, y), ord(self.data[w * y + x]))
+                img.putpixel((x, y), self.data[w * y + x])
         img.save(fname)
         return True
+
+    def get_image(self):
+        w = self.width
+        h = self.height
+
+        # if no data, no save.
+        if w == 0 or h == 0:
+            return False
+
+        img = Image.new("L", (w, h), 0)
+        x = 0
+        y = 0
+        for y in range(h):
+            for x in range(w):
+                img.putpixel((x, y), self.data[w * y + x])
+        return img

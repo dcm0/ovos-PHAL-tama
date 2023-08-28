@@ -24,8 +24,7 @@ RUN pip3 install /tmp/ovos_PHAL_tama
 
 SHELL ["/bin/bash", "-c"]
 
-RUN pip3 install -r /tmp/ovos_PHAL_tama/files/requirements.txt \
-    && pip3 install /tmp/ovos_PHAL_tama \
+RUN pip3 install /tmp/ovos_PHAL_tama \
     && chown ${USER}:${USER} -R /home/${USER} \
     && rm -rf ${HOME}/.cache /var/lib/apt /var/log/{apt,dpkg.log} /tmp/ovos_PHAL_tama
 

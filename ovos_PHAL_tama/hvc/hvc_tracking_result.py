@@ -16,9 +16,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from ovos_PHAL_tama.hvc.hvc_result import *
-from ovos_PHAL_tama.hvc.okao_result import *
-from ovos_PHAL_tama.hvc.hvc_tracking_result_c import *
+from hvc_result import *
+from okao_result import *
+from hvc_tracking_result_c import *
 
 
 status_dic = {STB_STATUS_CALCULATING:"CALCULATING",\

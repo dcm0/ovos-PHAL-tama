@@ -20,11 +20,11 @@
 import os.path
 import sys
 import time
-import ovos_PHAL_tama.hvc.p2def as p2def
-from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
-from ovos_PHAL_tama.hvc.hvc_p2_api import HVCP2Api
-from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult
-from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
+import p2def
+from serial_connector import SerialConnector
+from hvc_p2_api import HVCP2Api
+from hvc_tracking_result import HVCTrackingResult
+from grayscale_image import GrayscaleImage
 
 ###############################################################################
 #  User Config. Please edit here if you need.
@@ -149,22 +149,22 @@ def main():
                 + "   d : delete all album data.\n"\
                 + "   x : exit.\n"\
                 + "  >>"
-            operation_str = eval(input(str))
+            operation_str = raw_input(str)
             if operation_str == 'x':
                 break
 
             if operation_str == 'r':
                 while True:
-                    str_uid = eval(input('user id [0-99] '))
+                    str_uid = raw_input('user id [0-99] ')
                     if str_uid >= '0' and str_uid <= '99':
                         user_id = int(str_uid)
                         break
                 while True:
-                    str_did = eval(input('data id [0-9] '))
+                    str_did = raw_input('data id [0-9] ')
                     if str_did >= '0' and str_did <= '9':
                         data_id = int(str_did)
                         break
-                eval(input('Press Enter key to register.'))
+                raw_input('Press Enter key to register.')
                 res_code = hvc_p2_api.register_data(user_id, data_id, img)
                 if res_code < p2def.RESPONSE_CODE_NORMAL: # error
                     print("Error: Invalid register album.")
@@ -175,17 +175,17 @@ def main():
                     print("\nNumber of detected faces is 2 or more.")
                 if res_code == p2def.RESPONSE_CODE_NORMAL: # success
                     img.save(img_fname)
-                    print(("Success to register. user_id=" + str_uid \
-                          + "  data_id=" + str_did))
+                    print("Success to register. user_id=" + str_uid \
+                          + "  data_id=" + str_did)
 
             if operation_str == 'g':
                 while True:
-                    str_uid = eval(input('user id [0-99] '))
+                    str_uid = raw_input('user id [0-99] ')
                     if str_uid >= '0' and str_uid <= '99':
                         user_id = int(str_uid)
                         break
-                print(("uid[{0}]: ".format(user_id)))
-                (res_code, data_list) = hvc_p2_api.get_user_data(user_id)
+                print("uid[{0}]: ".format(user_id),
+                (res_code, data_list) = hvc_p2_api.get_user_data(user_id))
                 if res_code < p2def.RESPONSE_CODE_NORMAL: # error
                     print("Error: Invalid register album.")
                     break
@@ -205,7 +205,7 @@ def main():
                 with open(album_fname, "wb") as file:
                     file.write(save_album)
 
-                print ("Success to save album.")
+                print("Success to save album.")
 
             if operation_str == 'l':
                 # Loads album from file
@@ -230,7 +230,7 @@ def main():
                 if res_code is not p2def.RESPONSE_CODE_NORMAL:
                     print("Error: Invalid save album to flash.")
                     break
-                print ("Success to delete album.")
+                print("Success to delete album.")
 
     except KeyboardInterrupt:
         time.sleep(1)

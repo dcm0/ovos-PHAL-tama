@@ -17,18 +17,18 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import ovos_PHAL_tama.hvc.p2def as p2def
-from ovos_PHAL_tama.hvc.serial_connector import SerialConnector
-from ovos_PHAL_tama.hvc.hvc_p2_wrapper import HVCP2Wrapper
-from ovos_PHAL_tama.hvc.hvc_tracking_result import HVCTrackingResult
-from ovos_PHAL_tama.hvc.hvc_tracking_result_c import C_FACE_RES35, C_BODY_RES35
-from ovos_PHAL_tama.hvc.hvc_result import HVCResult
-from ovos_PHAL_tama.hvc.hvc_result_c import C_FRAME_RESULT
-from ovos_PHAL_tama.hvc.stb import STB
-from ovos_PHAL_tama.hvc.grayscale_image import GrayscaleImage
+import p2def
+from serial_connector import SerialConnector
+from hvc_p2_wrapper import HVCP2Wrapper
+from hvc_tracking_result import HVCTrackingResult
+from hvc_tracking_result_c import C_FACE_RES35, C_BODY_RES35
+from hvc_result import HVCResult
+from hvc_result_c import C_FRAME_RESULT
+from stb import STB
+from grayscale_image import GrayscaleImage
 
 WINDOWS_STB_LIB_NAME = 'libSTB.dll'
-LINUX_STB_LIB_NAME = '/home/ovos/ovos-PHAL-tama/ovos_PHAL_tama/hvc/libSTB.so'
+LINUX_STB_LIB_NAME = './libSTB.so'
 
 class HVCP2Api(object):
     """ This class provide python full API for HVC-P2(B5T-007001) with STB library.
@@ -74,10 +74,7 @@ class HVCP2Api(object):
         elif 'linux':
             stb_lib_name = LINUX_STB_LIB_NAME
         else:
-            try:    
-                raise Exception('Error: Unsupported OS.')
-            except Exception as e:
-                print(("Error {0}".format(str(e.args[0])).encode("utf-8")))
+            raise 'Error: Unsupported OS.'
 
         if self.use_stb:
             self._stb = STB(stb_lib_name, exec_func)
