@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-from ovos_utils import play_audio_file
+from ovos_utils import play_audio
 from ovos_bus_client.client import MessageBusClient
 from ovos_bus_client import Message
 from ovos_utils.log import LOG
@@ -85,12 +85,12 @@ class EnclosureEyes:
     def playSound(self, message):
         audiopath = str(Path().absolute()) +'/mycroft/client/enclosure/tama/alarm.mp3'
         LOG.info("BING Error sound "+ audiopath)
-        play_audio_file(audiopath)
+        play_audio(audiopath)
 
     def playHmm(self, message):
         audiopath = str(Path().absolute()) +'/mycroft/client/enclosure/tama/hmm.mp3'
         LOG.info("Hmm sound "+ audiopath)
-        play_audio_file(audiopath)
+        play_audio(audiopath)
 
 
     def handle_get_color(self, message):
